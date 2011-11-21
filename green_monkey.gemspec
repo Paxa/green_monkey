@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Pavel Evstigneev"]
   s.email       = ["pavel.evst@gmail.com"]
-  s.homepage    = "https://github.com/paxa/patron"
+  s.homepage    = "https://github.com/paxa/green_monkey"
   s.summary     = "Rails and Haml microdata layout helpers"
   s.description = "It hacks Rails and Haml"
 
