@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/Paxa/chronic_duration.git
-  revision: 50f548ad4c8687bb7ace1c13614e1cea4210aaef
+  revision: 8c0d0e101bdbaf2b2299f33e7bfa880b0885a017
+  ref: 8c0d0e101b
   specs:
     chronic_duration (0.9.6)
       numerizer (~> 0.1.1)
