@@ -1,3 +1,5 @@
+require "mida"
+
 class Mida::Vocabulary::Custom < Mida::Vocabulary
   attr_reader :itemtype
   def initialize(itemtype)

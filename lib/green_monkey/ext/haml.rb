@@ -1,3 +1,5 @@
+require "haml"
+
 # this hack looks at active-record object's :html_schema_type field and adds itemscope, itemid and itemtype to element
 # example:
 #

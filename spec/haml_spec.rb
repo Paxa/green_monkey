@@ -34,11 +34,20 @@ describe "Haml generation" do
     render_haml("%b[:title] Dada").should =~ /itemprop=.?title/
   end
   
-  it "should run time_tag" do
+  it "should run time_tag with time" do
     time = Time.now
     str = render_haml("= time_tag(time)", time: time)
     
     str.should =~ /<time.+datetime=.?#{Regexp.escape time.iso8601(10)}/
+  end
+  
+  it "should run time_tag with duration" do
+    str = render_haml("= time_tag(time)", time: 3.hours + 30.minutes)
+    str.should =~ /datetime=.PT3H30M/
+  end
+  
+  it "should run time_tag with time interval" do
+    # TODO
   end
   
   it "should generate valid microdata layout" do

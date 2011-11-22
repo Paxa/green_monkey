@@ -7,8 +7,6 @@ require 'rails/all'
 require 'rails/generators'
 require 'rails/generators/test_case'
 
-require "haml"
-require "mida"
 require "green_monkey"
 
 class TestApp < Rails::Application
