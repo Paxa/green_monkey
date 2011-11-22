@@ -34,22 +34,6 @@ describe "Haml generation" do
     render_haml("%b[:title] Dada").should =~ /itemprop=.?title/
   end
   
-  it "should run time_tag with time" do
-    time = Time.now
-    str = render_haml("= time_tag(time)", time: time)
-    
-    str.should =~ /<time.+datetime=.?#{Regexp.escape time.iso8601(10)}/
-  end
-  
-  it "should run time_tag with duration" do
-    str = render_haml("= time_tag(time)", time: 3.hours + 30.minutes)
-    str.should =~ /datetime=.PT3H30M/
-  end
-  
-  it "should run time_tag with time interval" do
-    # TODO
-  end
-  
   it "should generate valid microdata layout" do
     post = Post.create(title: "Post 1", body: "Some text")
     tpl = Pathname.new(__FILE__).dirname.join("post.haml")
@@ -65,5 +49,37 @@ describe "Haml generation" do
     
     doc.items[0].id.should == post.id.to_s
     doc.items[0].type.should == post.html_schema_type.itemtype.source
+  end
+  
+  describe 'time_tag' do
+    it "should produce itemprop if specified" do
+      str = render_haml("= time_tag(Time.now, itemprop: 'time')")
+      str.should =~ /itemprop="time"/
+    end
+    
+    it "should run with time" do
+      time = Time.now
+      str = render_haml("= time_tag(time)", time: time)
+
+      str.should =~ /<time.+datetime=.?#{Regexp.escape time.iso8601}/
+    end
+
+    it "should run with duration" do
+      str = render_haml("= time_tag(time)", time: 3.hours + 30.minutes)
+      str.should =~ /datetime=.PT3H30M/
+    end
+
+    it "should run with time interval of 2 dates" do
+      time = [Time.parse("14 March 1879"), Time.parse("18 April 1955")]
+
+      str = render_haml("= time_tag_interval(*time, :format => '%d %h %Y')", time: time)
+      str.should =~ /<time.+datetime=.?#{Regexp.escape time[0].iso8601}\/#{Regexp.escape time[1].iso8601}/
+    end
+
+    it "should run with date and duration" do
+      time = [Time.parse("6 May 1989"), 150.hours]
+      str = render_haml("= time_tag_interval(*time, :format => :short)", time: time)
+      str.should =~ /<time.+datetime=.?#{Regexp.escape time[0].iso8601}\/P6DT6H/
+    end
   end
 end

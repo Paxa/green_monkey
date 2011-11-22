@@ -35,6 +35,20 @@ Haml & HTML:
 <time datetime="PT3H30M" title="3 hours 30 minutes">about 4 hours</time>
 ```
 
+### helper `time_tag_interval`
+
+The same with `time_tag` but made for time intervals
+
+```haml
+= time_tag_interval Time.parse("14 March 1879"), Time.parse("18 April 1955"), :format => '%d %h %Y'
+= time_tag_interval Time.parse("14 March 1989"), 150.hours, :format => :short
+```
+
+```html
+<time datetime="1879-03-14T00:00:00+07:30/1955-04-18T00:00:00+07:30">14 Mar 1879 - 14 Mar 1879</time>
+<time datetime="1989-05-06T00:00:00+08:00/P6DT6H">06 May 00:00 in 6d 6h</time>
+```
+
 ### ActiveRecord::Base#html\_schema\_type
 
 ```ruby
