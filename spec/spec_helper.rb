@@ -9,14 +9,16 @@ require 'rails/generators/test_case'
 
 require "green_monkey"
 
-class TestApp < Rails::Application
-  config.root = File.dirname(__FILE__)
-  config.active_support.deprecation :log
-  #config.logger = Logger.new(STDOUT)
-  config.log_level = :error
+module TestApp
+  class Application < Rails::Application
+    config.root = File.dirname(__FILE__)
+    config.active_support.deprecation :log
+    #config.logger = Logger.new(STDOUT)
+    config.log_level = :error
+  end
 end
 
-Rails.application = TestApp
+Rails.application = TestApp::Application
 
 module Rails
   def self.root
@@ -25,7 +27,7 @@ module Rails
 end
 
 Rails.application.config.root = Rails.root
-TestApp.initialize!
+TestApp::Application.initialize!
 
 ActiveRecord::Schema.define(:version => 20111023054000) do
   create_table "posts" do |t|
@@ -51,4 +53,18 @@ end
 
 class User < ActiveRecord::Base
   html_schema_type "http://example.com/User"
+end
+
+module TestInlineRenderer
+  def render_file(file, options = {})
+    ActionController::Base.new.render_to_string(file: file, locals: options)
+  end
+  
+  def render_haml(template, options = {})
+    $t += 1
+    file = File.expand_path(File.dirname(__FILE__) + "/../tmp/#{$t}.haml")
+    File.delete(file) if File.exist?(file)
+    File.open(file, 'w+') {|f| f.write template }
+    render_file(file, options)
+  end
 end

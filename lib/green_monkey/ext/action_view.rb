@@ -11,7 +11,7 @@ module ActionView::Helpers::TagHelper
           attrs << key.to_s if value
         elsif !value.nil?
           final_value = value.is_a?(Array) ? value.join(" ") : value
-          final_value = html_escape(final_value) if escape
+          final_value = ERB::Util.html_escape(final_value) if escape
           attrs << %(#{key}="#{final_value}")
         end
       end

@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = "green_monkey"
-  s.version     = '0.1'
+  s.version     = '0.1.1'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Pavel Evstigneev"]
   s.email       = ["pavel.evst@gmail.com"]
@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'sqlite3'
 
   s.files        = `git ls-files`.split("\n")
-  s.executables  = `git ls-files`.split("\n").map{|f| f =~ /^bin\/(.*)/ ? $1 : nil}.compact
+  s.executables  = []
   s.require_paths = ["lib"]
 end
 

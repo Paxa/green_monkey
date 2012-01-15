@@ -4,17 +4,7 @@ require "pathname"
 $t = 0
 
 describe "Haml generation" do
-  def render_file(file, options = {})
-    ActionController::Base.new.render_to_string(file: file, locals: options)
-  end
-  
-  def render_haml(template, options = {})
-    $t += 1
-    file = File.expand_path(File.dirname(__FILE__) + "/../tmp/#{$t}.haml")
-    File.delete(file) if File.exist?(file)
-    File.open(file, 'w+') {|f| f.write template }
-    render_file(file, options)
-  end
+  include TestInlineRenderer
   
   it "should render itemscope as a boolean attribute" do
     render_haml("%b{:itemscope => true}").should =~ /<b\s+itemscope\s*>/
