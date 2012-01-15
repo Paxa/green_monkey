@@ -57,7 +57,7 @@ end
 
 module TestInlineRenderer
   def render_file(file, options = {})
-    ActionController::Base.new.render_to_string(file: file, locals: options)
+    ActionController::Base.new.render_to_string(file: file, locals: options, handlers: [:haml])
   end
   
   def render_haml(template, options = {})
@@ -65,6 +65,6 @@ module TestInlineRenderer
     file = File.expand_path(File.dirname(__FILE__) + "/../tmp/#{$t}.haml")
     File.delete(file) if File.exist?(file)
     File.open(file, 'w+') {|f| f.write template }
-    render_file(file, options)
+    render_file(file.sub(/.haml$/, ''), options)
   end
 end

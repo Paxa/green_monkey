@@ -26,7 +26,7 @@ describe "Haml generation" do
   
   it "should generate valid microdata layout" do
     post = Post.create(title: "Post 1", body: "Some text")
-    tpl = Pathname.new(__FILE__).dirname.join("post.haml")
+    tpl = Pathname.new(__FILE__).dirname.join("post")
     str = render_file(tpl, post: post)
 
     doc = Mida::Document.new(str, "http://example.com/")
