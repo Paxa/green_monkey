@@ -25,6 +25,19 @@ def Mida(itemtype, addition = nil)
   end
 end
 
+class Mida::Vocabulary
+  
+  # this dutty hack fix some strange bug then 
+  # Mida::Vocabulary.find "http://schema.org/BlogPosting"
+  # => Mida::SchemaOrg::Blog
+  def self.find(itemtype)
+    @vocabularies.sort_by {|v| v.itemtype ? v.itemtype.source.size : 0 }.reverse.each do |vocabulary|
+      if ((itemtype || "") =~ vocabulary.itemtype) then return vocabulary end
+    end
+    nil
+  end
+end
+
 require "uri"
 
 module URI
