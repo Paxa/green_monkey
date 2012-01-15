@@ -5,4 +5,5 @@ rvm:
 gemfile:
   - Gemfile.rails-3.0.11
   - Gemfile.rails-3.1.3
+  - Gemfile.rails-3.2
   - Gemfile.haml-edge
