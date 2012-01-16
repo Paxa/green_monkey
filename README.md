@@ -12,7 +12,6 @@ Add to Gemfile
 
 ```ruby
 gem "green_monkey", '0.1.2'
-gem "mida", git: 'git@github.com:Paxa/mida.git', ref: '7db7149a2cf'
 gem 'chronic_duration', git: 'git://github.com/Paxa/chronic_duration.git', ref: '8c0d0e101b'
 ```
 
