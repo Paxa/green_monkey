@@ -11,7 +11,9 @@ This Gem allows you to make html-layout with microdata properties easier. It wor
 Add to Gemfile
 
 ```ruby
-gem "green_monkey"
+gem "green_monkey", '0.1.2'
+gem "mida", git: 'git@github.com:Paxa/mida.git', ref: '7db7149a2cf'
+gem 'chronic_duration', git: 'git://github.com/Paxa/chronic_duration.git', ref: '8c0d0e101b'
 ```
 
 ## Examples
@@ -45,7 +47,7 @@ The same with `time_tag` but made for time intervals
 ```
 
 ```html
-<time datetime="1879-03-14T00:00:00+07:30/1955-04-18T00:00:00+07:30">14 Mar 1879 - 14 Mar 1879</time>
+<time datetime="1879-03-14T00:00:00+07:30/1955-04-18T00:00:00+07:30">14 Mar 1879 - 18 Apr 1879</time>
 <time datetime="1989-05-06T00:00:00+08:00/P6DT6H">06 May 00:00 in 6d 6h</time>
 ```
 

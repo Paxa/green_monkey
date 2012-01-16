@@ -6,13 +6,22 @@ GIT
     chronic_duration (0.9.6)
       numerizer (~> 0.1.1)
 
+GIT
+  remote: git@github.com:Paxa/mida.git
+  revision: 7db7149a2cf7d60bb4b570ce89094b56d86642af
+  ref: 7db7149a2cf
+  specs:
+    mida (0.3.4)
+      mida_vocabulary (>= 0.1)
+      nokogiri (>= 1.5)
+
 PATH
   remote: .
   specs:
     green_monkey (0.1.1)
       chronic_duration
       haml (>= 3.1.0)
-      mida (>= 0.3.3)
+      mida_vocabulary (>= 0.1)
       rails (>= 3.0.0)
 
 GEM
@@ -59,9 +68,8 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    mida (0.3.3)
+    mida_vocabulary (0.1)
       blankslate
-      nokogiri (>= 1.5)
     mime-types (1.17.2)
     multi_json (1.0.4)
     nokogiri (1.5.0)
@@ -124,6 +132,7 @@ DEPENDENCIES
   bundler (>= 1.0.0)
   chronic_duration!
   green_monkey!
+  mida!
   rails (= 3.2.0.rc2)
   rspec (>= 2.7.0)
   rspec-rails
