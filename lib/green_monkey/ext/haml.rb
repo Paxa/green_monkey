@@ -38,9 +38,9 @@ class Haml::Buffer
       return {'itemprop' => obj.to_s}
     elsif obj.kind_of?(Mida::Vocabulary)
       # Mida::Vocabulary => itemprop and itemtype
-      return {'itemscope' true, 'itemtype' obj.itemtype.source}
+      return {'itemscope' => true, 'itemtype' => obj.itemtype.source}
     elsif obj.is_a?(String)
-      return {'class' obj}
+      return {'class' => obj}
     else
       options = {}
       options['class'] = obj.respond_to?(:haml_object_ref) ? obj.haml_object_ref : underscore(obj.class)
