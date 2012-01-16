@@ -27,7 +27,6 @@ class Haml::Buffer
       next if obj == "local-variable"
       self.class.merge_attrs(options, process_object_ref(obj))
     end
-    
     options
   end
   
@@ -39,24 +38,24 @@ class Haml::Buffer
       return {'itemprop' => obj.to_s}
     elsif obj.kind_of?(Mida::Vocabulary)
       # Mida::Vocabulary => itemprop and itemtype
-      return {itemscope: true, itemtype: obj.itemtype.source}
+      return {'itemscope' true, 'itemtype' obj.itemtype.source}
     elsif obj.is_a?(String)
-      return {class: obj}
+      return {'class' obj}
     else
       options = {}
-      options[:class] = obj.respond_to?(:haml_object_ref) ? obj.haml_object_ref : underscore(obj.class)
-      options[:id] = "#{options[:class]}_#{obj.id || 'new'}" if obj.respond_to?(:id)
+      options['class'] = obj.respond_to?(:haml_object_ref) ? obj.haml_object_ref : underscore(obj.class)
+      options['id'] = "#{options['class']}_#{obj.id || 'new'}" if obj.respond_to?(:id)
       
       # my hack for microdata attributes
       if obj.respond_to?(:html_schema_type)
-        options[:itemscope] = true
-        options[:itemid] = obj.id
+        options['itemscope'] = true
+        options['itemid'] = obj.id
         
         if obj.html_schema_type.kind_of?(Mida::Vocabulary)
-          options[:itemtype] = obj.html_schema_type.itemtype.source
+          options['itemtype'] = obj.html_schema_type.itemtype.source
         else
           raise "No vocabulary found (#{obj.html_schema_type})" unless Mida::Vocabulary.find(obj.html_schema_type)
-          options[:itemtype] = obj.html_schema_type
+          options['itemtype'] = obj.html_schema_type
         end
       end
       

@@ -7,7 +7,7 @@ GIT
       numerizer (~> 0.1.1)
 
 GIT
-  remote: git@github.com:Paxa/mida.git
+  remote: git://github.com/Paxa/mida.git
   revision: 7db7149a2cf7d60bb4b570ce89094b56d86642af
   ref: 7db7149a2cf
   specs:
@@ -18,7 +18,7 @@ GIT
 PATH
   remote: .
   specs:
-    green_monkey (0.1.1)
+    green_monkey (0.1.2)
       chronic_duration
       haml (>= 3.1.0)
       mida_vocabulary (>= 0.1)

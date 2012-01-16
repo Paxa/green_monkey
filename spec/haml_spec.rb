@@ -72,5 +72,14 @@ describe "Haml generation" do
       str = render_haml("= time_tag_interval(*time, :format => :short)", time: time)
       str.should =~ /<time.+datetime=.?#{Regexp.escape time[0].iso8601}\/P6DT6H/
     end
+    
+    it "should add class from model" do
+      user = User.create
+      tpl = "%article.person[user]"
+      str = render_haml(tpl, user: user)
+      html_class = str.match(/class=['"]([\w\s]+)['"]/)[1]
+      html_class.should =~ /person/
+      html_class.should =~ /user/
+    end
   end
 end
