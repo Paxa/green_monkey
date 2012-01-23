@@ -5,7 +5,7 @@ module GreenMonkey
   module ViewHelper
     
     # it shortcut for this
-    #%time{:datetime => post.published_at.iso8601(10) }= post.published_at.strftime("%d %h %Y")
+    # %time{:datetime => post.published_at.iso8601(10) }= post.published_at.strftime("%d %h %Y")
     
     # = time_tag post.created_at
     # = time_tag post.created_at, format: "%d %h %Y %R%p"
@@ -27,6 +27,7 @@ module GreenMonkey
       content_tag(:time, content, options.reverse_merge(datetime: datetime, title: title))
     end
     
+    # as second argumnts can get as Time/DateTime object as duration in seconds
     def time_tag_interval(from, to, *args)
       options  = args.extract_options!
       format   = options.delete(:format) || :long

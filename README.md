@@ -19,8 +19,8 @@ gem 'chronic_duration', git: 'git://github.com/Paxa/chronic_duration.git', ref: 
 
 ### helper `time_tag`
 
-It almost as rails' time_tag but make `datetime` attribute in iso8601 format, according to Microdata specifications
-Also it accepts Numeric values as duration
+It almost the same with rails' time_tag but make `datetime` attribute in iso8601 format, according to Microdata specifications.
+Also it accepts Numeric values as duration for time intervals
 
 Haml & HTML:
 
@@ -58,7 +58,7 @@ class User < ActiveRecord::Base
 end
 
 User.html_schema_type #=> Mida::SchemaOrg::Person
-User.find(1).html_schema_type => Mida::SchemaOrg::Person
+User.find(1).html_schema_type #=> Mida::SchemaOrg::Person
 ```
 
 ### Haml magic

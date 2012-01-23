@@ -81,5 +81,10 @@ describe "Haml generation" do
       html_class.should =~ /person/
       html_class.should =~ /user/
     end
+    
+    it "should make itemscope as boolean attribute" do
+      str = render_haml("%div{:itemscope => true}")
+      str.should =~ %r{<div\s+itemscope\s*/?>}
+    end
   end
 end

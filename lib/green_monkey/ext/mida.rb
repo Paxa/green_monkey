@@ -24,11 +24,3 @@ def Mida(itemtype, addition = nil)
     found_voc
   end
 end
-
-require "uri"
-
-module URI
-  def to_json
-    to_s.to_json
-  end
-end
