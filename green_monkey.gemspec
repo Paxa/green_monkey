@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = ">= 1.2.0"
 
-  s.add_runtime_dependency 'rails', '>= 3.0.0'
+  #s.add_runtime_dependency 'rails', '>= 3.0.0'
   s.add_runtime_dependency 'haml', '>= 3.1.0'
   s.add_runtime_dependency 'mida_vocabulary', '>= 0.1'
   s.add_runtime_dependency 'chronic_duration'

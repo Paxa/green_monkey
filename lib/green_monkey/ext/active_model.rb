@@ -9,7 +9,7 @@ module GreenMonkey
     end
 
     module ClassMethods
-      def html_schema_type(value = nil)
+      def html_schema_type(value = nil, options = {})
         return @html_schema_type unless value
 
         value = /#{value}/ if value.is_a?(Symbol)
@@ -20,6 +20,7 @@ module GreenMonkey
         end
 
         @html_schema_type = value
+        @html_schema_options = options
       end
     end
   end
