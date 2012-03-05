@@ -76,5 +76,11 @@ module GreenMonkey
 
       tag_options(options)
     end
+
+    def breadcrumb_link_to(title, path, options = {})
+      content_tag(:span, itemscope: true, itemtype: 'http://data-vocabulary.org/Breadcrumb') do
+        link_to(content_tag(:span, title, itemprop: 'title'), path, options.merge(itemprop: 'url')) + ''
+      end
+    end
   end
 end

@@ -21,9 +21,14 @@ describe "ActionView hacks" do
       str.should =~ /data\-c="0.111"/
     end
   end
-  
+
   it "should make itemscope as boolean attribute" do
     str = render_haml('= tag ?p, itemscope: true')
     str.should =~ %r{<p\s+itemscope\s*/?>}
+  end
+
+  it "should make breadcrumb link" do
+    str = render_haml('= breadcrumb_link_to("Home", "/")')
+    str.index('http://data-vocabulary.org/Breadcrumb').should_not == nil
   end
 end

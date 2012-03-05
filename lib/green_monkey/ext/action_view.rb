@@ -11,10 +11,12 @@ module ActionView::Helpers::TagHelper
   # to make it follow standarts (http://www.w3.org/TR/microdata/#typed-items)
   alias_method :tag_options_before_green_monkey, :tag_options
   def tag_options(options, escape = true)
-    tag_options_before_green_monkey(options, escape).tap do |str|
-      if options['itemscope'] || options[:itemscope]
-        str.sub!(/itemscope=('|")itemscope('|")/, 'itemscope')
-      end
+    str = tag_options_before_green_monkey(options, escape)
+
+    if options['itemscope'] || options[:itemscope]
+      str = (str + '').sub(/itemscope=('|")itemscope('|")/, 'itemscope').html_safe
     end
+
+    str
   end
 end
