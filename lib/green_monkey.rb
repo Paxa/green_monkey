@@ -10,6 +10,12 @@ module GreenMonkey
       ActiveModel::Dirty.send :include, GreenMonkey::ModelHelpers
     end
 
+    if defined? ActiveRecord
+      require "green_monkey/ext/active_model"
+      ActiveRecord::Base.send :include, GreenMonkey::ModelHelpers
+    end
+
+
     if defined? ActionView
       require "green_monkey/ext/action_view"
       require 'green_monkey/ext/view_helper'
