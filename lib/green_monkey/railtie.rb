@@ -5,8 +5,11 @@ module GreenMonkey
     initializer 'green_monkey.init', :before => :load_config_initializers do
       require "green_monkey/ext/active_model"
       ActiveModel::Dirty.send :include, GreenMonkey::ModelHelpers
-      ActiveRecord::Base.send :include, GreenMonkey::ModelHelpers
 
+      if defined?(ActiveRecord)
+        ActiveRecord::Base.send :include, GreenMonkey::ModelHelpers
+      end
+      
       require 'green_monkey/ext/view_helper'
       ActionView::Base.send :include, GreenMonkey::ViewHelper
 
