@@ -66,7 +66,7 @@ User.find(1).html_schema_type #=> Mida::SchemaOrg::Person
 Attribute `itemprop`
 
 ```haml
-%span[:name]= item.name
+%span['#name']= item.name
 <span itemprop='name'>Item name</span>
 ```
 
@@ -89,8 +89,8 @@ Haml:
 ```haml
 %article[post]
   = link_to "/posts/#{post.id}", :itemprop => "url" do
-    %h3[:name]>= post.title
-  .post_body[:articleBody]= post.body.html_safe
+    %h3['#name']>= post.title
+  .post_body['#articleBody']= post.body.html_safe
   = time_tag(post.created_at, :itemprop => "datePublished")
 ```
 

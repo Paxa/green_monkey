@@ -22,7 +22,7 @@ describe "Haml generation" do
   end
   
   it "should render itemprop attribute" do
-    render_haml("%b[:title] Dada").should =~ /itemprop=.?title/
+    render_haml("%b['#title'] Dada").should =~ /itemprop=.?title/
   end
   
   it "should generate valid microdata layout" do
@@ -31,7 +31,7 @@ describe "Haml generation" do
     str = render_file(tpl, post: post)
 
     doc = Mida::Document.new(str, "http://example.com/")
-    
+
     props = doc.items[0].properties
     props['url'][0].to_s.should == "http://example.com/posts/#{post.id}"
     props['name'][0].should == post.title
