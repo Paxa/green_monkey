@@ -29,7 +29,7 @@ class Haml::Buffer
         elsif part.is_a?(String)
           # itemprop
           part =~ /^#\w+$/ ? opts[:itemprop]= part[1..-1] : next
-        elsif part.is_a? Mida::Vocabulary
+        elsif part.kind_of? Mida::Vocabulary
           opts[:itemscope]= true
           opts[:itemtype]= part.itemtype.source
         else
