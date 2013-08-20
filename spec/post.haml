@@ -4,6 +4,6 @@
   %body
     %article[post]
       = link_to "/posts/#{post.id}", :itemprop => "url" do
-        %h3[:name]>= post.title
-      .post_body[:articleBody]= post.body.html_safe
+        %h3['#name']>= post.title
+      .post_body['#articleBody']= post.body.html_safe
       = time_tag(post.created_at, :itemprop => "datePublished")

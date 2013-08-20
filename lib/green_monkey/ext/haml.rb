@@ -18,49 +18,52 @@ require "haml"
 
 class Haml::Buffer
   
-  # this methods calls then you pass
-  # %tag[object1, object2]
-  # ref argument is array
-  def parse_object_ref(ref)
-    options = {}
-    ref.each do |obj|
-      next if obj == "local-variable"
-      self.class.merge_attrs(options, process_object_ref(obj))
-    end
-    options
-  end
-  
-  def process_object_ref(obj)
-    return {} if !obj
-    
-    if obj.is_a?(Symbol)
-      # symbol => "itemprop" attribute
-      return {'itemprop' => obj.to_s}
-    elsif obj.kind_of?(Mida::Vocabulary)
-      # Mida::Vocabulary => itemprop and itemtype
-      return {'itemscope' => true, 'itemtype' => obj.itemtype.source}
-    elsif obj.is_a?(String)
-      return {'class' => obj}
-    else
-      options = {}
-      options['class'] = obj.respond_to?(:haml_object_ref) ? obj.haml_object_ref : underscore(obj.class)
-      options['id'] = "#{options['class']}_#{obj.id || 'new'}" if obj.respond_to?(:id)
-      
-      # my hack for microdata attributes
-      if obj.respond_to?(:html_schema_type)
-        options['itemscope'] = true
-        options['itemid'] = obj.id
-        
-        if obj.html_schema_type.kind_of?(Mida::Vocabulary)
-          options['itemtype'] = obj.html_schema_type.itemtype.source
+            
+    def parse_object_ref(ref)
+      return if ref.nil?
+      opts = {}                               
+      prefix = ''
+      ref.each do |part|
+        if part.is_a? Symbol
+          prefix = "#{part.to_s}_"
+        elsif part.is_a?(String)
+          # itemprop
+          part =~ /^#\w+$/ ? opts[:itemprop]= part[1..-1] : next
+        elsif part.kind_of? Mida::Vocabulary
+          opts[:itemscope]= true
+          opts[:itemtype]= part.itemtype.source
         else
-          raise "No vocabulary found (#{obj.html_schema_type})" unless Mida::Vocabulary.find(obj.html_schema_type)
-          options['itemtype'] = obj.html_schema_type
-        end
-      end
-      
-      return options
+          opts[:class]= part.respond_to?(:haml_object_ref) ? part.haml_object_ref : underscore(part.class)
+          tmp_id =
+            if part.respond_to?(:to_key)
+              key = part.to_key
+              key.join('_') unless key.nil?
+            else
+              part.id
+            end
+          opts[:id]= "#{opts[:class]}_#{tmp_id || 'new'}"          
+
+          # hack for microdata attributes
+          if part.respond_to?(:html_schema_type)
+            opts[:itemscope] = true
+            opts[:itemid] = part.id
+
+            if part.html_schema_type.kind_of?(Mida::Vocabulary)
+              opts[:itemtype] = part.html_schema_type.itemtype.source
+            else
+              raise "No vocabulary found (#{part.html_schema_type})" unless Mida::Vocabulary.find(part.html_schema_type)
+              opts[:itemtype] = part.html_schema_type
+            end
+          end
+         
+        end          
+         
+      end 
+      opts[:class] = prefix + opts[:class] if opts.key? :class
+      opts[:id] = prefix + opts[:id] if opts.key? :id
+      opts.stringify_keys
     end
-  end
+   
+
 
 end

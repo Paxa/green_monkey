@@ -22,16 +22,24 @@ describe "Haml generation" do
   end
   
   it "should render itemprop attribute" do
-    render_haml("%b[:title] Dada").should =~ /itemprop=.?title/
+    render_haml("%b['#title'] Dada").should =~ /itemprop=.?title/
   end
   
+
+  it 'should render itemscope for Mida::Vocabulary' do
+    str = render_haml("%b[Mida(:Event)]")
+    str.should =~ /itemtype=('|")#{Regexp.escape 'http://schema.org/Event'}('|")/
+    str.should =~ /itemscope/
+  end
+
+
   it "should generate valid microdata layout" do
     post = Post.create(title: "Post 1", body: "Some text")
     tpl = Pathname.new(__FILE__).dirname.join("post")
     str = render_file(tpl, post: post)
 
     doc = Mida::Document.new(str, "http://example.com/")
-    
+
     props = doc.items[0].properties
     props['url'][0].to_s.should == "http://example.com/posts/#{post.id}"
     props['name'][0].should == post.title
