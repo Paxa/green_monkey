@@ -27,6 +27,8 @@ module Rails
 end
 
 Rails.application.config.root = Rails.root
+Rails.application.config.eager_load = false
+
 TestApp::Application.initialize!
 
 ActiveRecord::Schema.define(:version => 20111023054000) do
@@ -67,4 +69,41 @@ module TestInlineRenderer
     File.open(file, 'w+') {|f| f.write template }
     render_file(file.sub(/.haml$/, ''), options)
   end
+end
+
+RSpec.configure do |config|
+  config.expect_with :rspec do |c|
+    c.syntax = [:should, :expect]
+  end
+
+  config.mock_with :rspec do |c|
+    c.syntax = [:should, :expect]
+  end
+end
+
+# Simple microdata parser
+def parse_mida_page(str)
+  require 'nokogiri'
+  doc = Nokogiri::HTML(str)
+  items = []
+  doc.css('[itemscope]').each do |scope|
+    item = {type: scope.attr('itemtype'), id: scope.attr('itemid')}
+    props = {}
+    scope.css('[itemprop]').each do |el|
+      prop_name = el.attr('itemprop')
+      if prop_name == 'url'
+        prop_value = el.attr('href')
+      elsif prop_name == 'datePublished' || prop_name.start_with?('date')
+        prop_value = DateTime.parse(el.attr('datetime'))
+      else
+        prop_value = el.inner_text
+      end
+      props[prop_name] ||= []
+      props[prop_name] << prop_value
+    end
+
+    item[:properties] = props
+    items << item
+  end
+  items
 end

@@ -1,6 +1,15 @@
 # coding: utf-8
 
 require "chronic_duration"
+
+# Provides view helpers
+# time_tag with "datetime" support
+# time_tag_interval for time intervals
+# time_to_iso8601 time-period converter
+# mida_scope shortcut to build "itemscope" and "itemtype" attributes
+# breadcrumb_link_to makes a link with itemtype="http://data-vocabulary.org/Breadcrumb"
+
+
 module GreenMonkey
   module ViewHelper
 
@@ -20,7 +29,7 @@ module GreenMonkey
         title = nil
         content  = args.first || I18n.l(time, format: format)
       elsif time.kind_of?(Numeric)
-        title = ChronicDuration.output(time, :format => format)
+        title = ChronicDuration.output(time, format: format)
         content = args.first || distance_of_time_in_words(time)
       else
         content = time.to_s
@@ -38,7 +47,7 @@ module GreenMonkey
         if time.acts_like?(:time)
           I18n.l(from, format: format)
         else
-          ChronicDuration.output(time, :format => format)
+          ChronicDuration.output(time, format: format)
         end
       end
 
@@ -52,26 +61,49 @@ module GreenMonkey
     end
 
     def time_to_iso8601(time)
+      # http://www.ostyn.com/standards/scorm/samples/ISOTimeForSCORM.htm
+      # P[yY][mM][dD][T[hH][mM][s[.s]S]]
+
+      minute = 60
+      hour = minute * 60
+      day = hour * 24
+      year = day * 365.25
+      month = year / 12
+
       if time.acts_like?(:time)
         time.iso8601
       elsif time.kind_of?(Numeric)
-        ChronicDuration.output(time, :format => :iso8601)
+        time = time.to_f
+        return "PT0H0M0S" if time == 0
+
+        parts = ["P"]
+        parts << "#{(time / year).floor}Y" if time >= year
+        parts << "#{(time % year / month).floor}M" if time % year >= month
+        parts << "#{(time % month / day).floor}D" if time % month >= day
+        time = time % month
+        parts << "T" if time % day > 0
+        parts << "#{(time % day / hour).floor}H" if time % day >= hour
+        parts << "#{(time % hour / minute).floor}M" if time % hour >= minute
+        parts << "#{(time % 1 == 0 ? time.to_i : time) % minute}S" if time % minute > 0
+
+        return parts.join
       end
     end
 
     def mida_scope(object)
       options = {itemscope: true}
+
       if object.respond_to?(:html_schema_type)
         if object.html_schema_type.kind_of?(Mida::Vocabulary)
-          options.merge! itemtype: object.html_schema_type.itemtype.source
+          options.merge!(itemtype: object.html_schema_type.itemtype.source)
         else
-          raise "No vocabulary found (#{obj.html_schema_type})" unless Mida::Vocabulary.find(obj.html_schema_type)
-          options.merge! itemtype: object.html_schema_type
+          raise "No vocabulary found (#{object.html_schema_type})" unless Mida::Vocabulary.find(object.html_schema_type)
+          options.merge!(itemtype: object.html_schema_type)
         end
       elsif object.is_a?(Symbol)
-        options.merge! itemtype: Mida(object)
+        options.merge!(itemtype: Mida(object).itemtype.source)
       elsif object.is_a?(String)
-        options.merge! itemtype: object
+        options.merge!(itemtype: object)
       end
 
       tag_options(options)

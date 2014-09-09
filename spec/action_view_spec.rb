@@ -33,7 +33,10 @@ describe "ActionView hacks" do
   end
 
   it "should make breadcrumb link" do
-    str = render_haml('= breadcrumb_link_to("Home", "/")')
+    str = render_haml('= breadcrumb_link_to("Home", "/")').strip
     str.index('http://data-vocabulary.org/Breadcrumb').should_not == nil
+    str.should == '<span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">' +
+                    '<a href="/" itemprop="url"><span itemprop="title">Home</span></a>' +
+                  '</span>'
   end
 end

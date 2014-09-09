@@ -1,3 +1,5 @@
 .rvmrc
 tmp/*.haml
 tmp/rails/log
+
+Gemfile.rails-*.lock

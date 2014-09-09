@@ -17,7 +17,7 @@ require "haml"
 # => <span itemprop="title">Hello</span>
 
 class Haml::Buffer
-  
+
   # this methods calls then you pass
   # %tag[object1, object2]
   # ref argument is array
@@ -29,10 +29,10 @@ class Haml::Buffer
     end
     options
   end
-  
+
   def process_object_ref(obj)
     return {} if !obj
-    
+
     if obj.is_a?(Symbol)
       # symbol => "itemprop" attribute
       return {'itemprop' => obj.to_s}
@@ -45,20 +45,20 @@ class Haml::Buffer
       options = {}
       options['class'] = obj.respond_to?(:haml_object_ref) ? obj.haml_object_ref : underscore(obj.class)
       options['id'] = "#{options['class']}_#{obj.id || 'new'}" if obj.respond_to?(:id)
-      
+
       # my hack for microdata attributes
       if obj.respond_to?(:html_schema_type)
         options['itemscope'] = true
         options['itemid'] = obj.id
-        
+
         if obj.html_schema_type.kind_of?(Mida::Vocabulary)
           options['itemtype'] = obj.html_schema_type.itemtype.source
         else
-          raise "No vocabulary found (#{obj.html_schema_type})" unless Mida::Vocabulary.find(obj.html_schema_type)
+          #raise "No vocabulary found (#{obj.html_schema_type})" unless Mida::Vocabulary.find(obj.html_schema_type)
           options['itemtype'] = obj.html_schema_type
         end
       end
-      
+
       return options
     end
   end

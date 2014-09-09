@@ -9,7 +9,7 @@ module GreenMonkey
       if defined?(ActiveRecord)
         ActiveRecord::Base.send :include, GreenMonkey::ModelHelpers
       end
-      
+
       require 'green_monkey/ext/view_helper'
       ActionView::Base.send :include, GreenMonkey::ViewHelper
 

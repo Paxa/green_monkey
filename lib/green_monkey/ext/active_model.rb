@@ -1,5 +1,8 @@
 # coding: utf-8
-
+# Provides setter and getter for microdata-type
+# ActiveModel.html_schema_type
+# ActiveModel#html_schema_type
+# ActiveModel#html_schema_type(value, [options])
 module GreenMonkey
   module ModelHelpers
     extend ActiveSupport::Concern
@@ -12,10 +15,15 @@ module GreenMonkey
       def html_schema_type(value = nil, options = {})
         return @html_schema_type unless value
 
-        value = /#{value}/ if value.is_a?(Symbol)
-        if value.is_a?(Regexp)
-          value = Mida::Vocabulary.vocabularies.find do |vocabulary|
-            vocabulary.itemtype.to_s =~ value && vocabulary.itemtype.to_s
+        if const = Mida::Vocabulary.try_load_const(value)
+          value = const
+        else
+          value = /#{value}/ if value.is_a?(Symbol)
+
+          if value.is_a?(Regexp)
+            value = Mida::Vocabulary.vocabularies.find do |vocabulary|
+              vocabulary.itemtype.to_s =~ value && vocabulary.itemtype.to_s
+            end
           end
         end
 

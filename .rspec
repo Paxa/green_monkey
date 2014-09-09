@@ -1,1 +1,3 @@
-# just let autotest know about rspec
+--color
+--require spec_helper
+--no-profile
