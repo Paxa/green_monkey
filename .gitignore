@@ -2,4 +2,4 @@
 tmp/*.haml
 tmp/rails/log
 
-Gemfile.rails-*.lock
+Gemfile.*.lock
