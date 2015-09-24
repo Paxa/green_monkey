@@ -3,7 +3,7 @@ require "haml"
 # this hack looks at active-record object's :html_schema_type field and adds itemscope, itemid and itemtype to element
 # example:
 #
-# %article[post] 
+# %article[post]
 # => <article class="post" itemscope itemtype="http://schema.org/BlogPosting" itemid="1">
 #
 # %section[Mida(:Blog)]
@@ -49,7 +49,7 @@ class Haml::Buffer
       # my hack for microdata attributes
       if obj.respond_to?(:html_schema_type)
         options['itemscope'] = true
-        options['itemid'] = obj.id
+        options['itemid'] = obj.has_attribute?(:slug) ? obj.slug : obj.id
 
         if obj.html_schema_type.kind_of?(Mida::Vocabulary)
           options['itemtype'] = obj.html_schema_type.itemtype.source
