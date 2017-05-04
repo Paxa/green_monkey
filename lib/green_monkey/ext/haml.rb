@@ -25,7 +25,11 @@ class Haml::Buffer
     options = {}
     ref.each do |obj|
       next if obj == "local-variable"
-      Haml::AttributeBuilder.merge_attributes!(options, process_object_ref(obj))
+      if self.class.respond_to?(:merge_attrs)
+        self.class.merge_attrs(options, process_object_ref(obj))
+      else
+        Haml::AttributeBuilder.merge_attributes!(options, process_object_ref(obj))
+      end
     end
     options
   end

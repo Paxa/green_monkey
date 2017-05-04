@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    green_monkey (0.2.2)
+    green_monkey (0.3.0)
       chronic_duration
       haml (>= 3.1.0)
       mida_vocabulary (>= 0.2.2)

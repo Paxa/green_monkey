@@ -63,9 +63,13 @@ end
 
 module TestInlineRenderer
   def render_file(file, options = {})
-    ApplicationController.render(file: file, locals: options)
+    if ApplicationController.respond_to?(:render)
+      ApplicationController.render(file: file, locals: options)
+    else
+      ActionController::Base.new.render_to_string(file: file, locals: options, handlers: [:haml])
+    end
   end
-  
+
   def render_haml(template, options = {})
     $t += 1
     file = File.expand_path(File.dirname(__FILE__) + "/../tmp/#{$t}.haml")
