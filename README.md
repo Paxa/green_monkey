@@ -2,7 +2,7 @@
 
 ## About
 
-This Gem allows you to make html-layout with microdata properties easier. It works with ruby 1.9+, rails 4, rails 3, haml 3.
+This Gem allows you to make html-layout with microdata properties easier. It works with ruby 1.9+, rails 4, rails 5, haml 3+.
 
 ![Green Monkey](http://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Bijilo-Portrait-of-a-Callithrix-Monkey.jpg/320px-Bijilo-Portrait-of-a-Callithrix-Monkey.jpg)
 

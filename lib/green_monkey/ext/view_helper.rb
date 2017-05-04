@@ -106,7 +106,7 @@ module GreenMonkey
         options.merge!(itemtype: object)
       end
 
-      tag_options(options)
+      tag_builder.tag_options(options)
     end
 
     def breadcrumb_link_to(title, path, options = {})

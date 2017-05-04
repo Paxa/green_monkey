@@ -1,11 +1,9 @@
 script: "bundle exec rake"
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.2
+  - 2.2.7
+  - 2.3.4
+  - 2.4.1
 gemfile:
-  - Gemfile.rails-3.0
-  - Gemfile.rails-3.1
-  - Gemfile.rails-3.2
-  - Gemfile.rails-4.1
-  - Gemfile.haml-edge
+  - Gemfile.rails-4.2
+  - Gemfile.rails-5.0
+  - Gemfile.rails-5.1

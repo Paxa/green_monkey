@@ -6,6 +6,7 @@ require 'bundler/setup'
 require 'rails/all'
 require 'rails/generators'
 require 'rails/generators/test_case'
+require 'haml'
 
 require "green_monkey"
 
@@ -16,6 +17,9 @@ module TestApp
     #config.logger = Logger.new(STDOUT)
     config.log_level = :error
   end
+end
+
+class ApplicationController < ActionController::Base
 end
 
 Rails.application = TestApp::Application
@@ -59,7 +63,7 @@ end
 
 module TestInlineRenderer
   def render_file(file, options = {})
-    ActionController::Base.new.render_to_string(file: file, locals: options, handlers: [:haml])
+    ApplicationController.render(file: file, locals: options)
   end
   
   def render_haml(template, options = {})

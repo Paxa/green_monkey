@@ -7,7 +7,7 @@ describe "ActionView hacks" do
   include TestInlineRenderer
 
   it "should works with stylesheet_link_tag" do
-    str = render_haml "= stylesheet_link_tag 'application'"
+    str = render_haml "= stylesheet_link_tag 'application', skip_pipeline: true"
     
     str.should =~ %r{link.+href="/stylesheets/application.css.*"}
   end
@@ -36,7 +36,7 @@ describe "ActionView hacks" do
     str = render_haml('= breadcrumb_link_to("Home", "/")').strip
     str.index('http://data-vocabulary.org/Breadcrumb').should_not == nil
     str.should == '<span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">' +
-                    '<a href="/" itemprop="url"><span itemprop="title">Home</span></a>' +
+                    '<a itemprop="url" href="/"><span itemprop="title">Home</span></a>' +
                   '</span>'
   end
 end
