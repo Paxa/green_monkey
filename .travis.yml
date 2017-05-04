@@ -1,8 +1,14 @@
-script: "bundle exec rake"
+language: ruby
+
+script: rake
+
+install: bundle install --jobs=3 --retry=5
+
 rvm:
   - 2.2.7
   - 2.3.4
   - 2.4.1
+
 gemfile:
   - Gemfile.rails-4.2
   - Gemfile.rails-5.0
