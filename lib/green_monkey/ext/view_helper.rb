@@ -106,7 +106,11 @@ module GreenMonkey
         options.merge!(itemtype: object)
       end
 
-      tag_builder.tag_options(options)
+      if respond_to?(:tag_options) || private_methods.include?(:tag_options)
+        send(:tag_options, options)
+      else
+        tag_builder.tag_options(options)
+      end
     end
 
     def breadcrumb_link_to(title, path, options = {})

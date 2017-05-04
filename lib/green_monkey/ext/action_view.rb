@@ -13,7 +13,7 @@ module ActionView::Helpers::TagHelper
     BOOLEAN_ATTRIBUTES.merge(['itemscope', :itemscope])
   end
 
-  if method_defined?(:tag_options)
+  if private_instance_methods.include?(:tag_options)
     private
 
     # this hack replaces itemscope="itemscope" => itemscope
